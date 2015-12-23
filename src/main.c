@@ -34,6 +34,9 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
+
+#define BSRR_VAL 0xC000
+
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
@@ -53,12 +56,23 @@ int main(void)
        system_stm32f30x.c file
      */ 
  
-  /* Add your application code here
-     */
-
-  /* Infinite loop */
+  SysTick_Config(72);
+  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOE, ENABLE);
+  
+  GPIO_InitTypeDef GPIO_InitStructure;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15 | GPIO_Pin_14;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+  GPIO_Init(GPIOE, &GPIO_InitStructure);
+  
   while (1)
   {
+    GPIOE->ODR |= BSRR_VAL;
+    _delay_ms(500);
+    GPIOE->ODR &= ~BSRR_VAL;
+    _delay_ms(500);
   }
 }
 
