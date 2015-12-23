@@ -1,4 +1,4 @@
-PROJ_NAME = stm32_project
+PROJ_NAME = STM32Example
 
 # Set toolchain
 TC = arm-none-eabi
